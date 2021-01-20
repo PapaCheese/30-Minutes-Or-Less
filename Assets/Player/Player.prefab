@@ -240,7 +240,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 898899752935512554, guid: 428ae82be5cbbde478bb56afbb473707, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8663fbd224642824b96a0a4be23e6ace, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5351,8 +5351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c058ba35c1d9c444892e54e736043d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skin: default
-  InitialrunSpeed: 7000
+  brain: {fileID: 0}
+  InitialDriveSpeed: 6000
   shadow: {fileID: 0}
   shadowSprite: {fileID: 0}
   deliveredFx: {fileID: 6919170239234508413}

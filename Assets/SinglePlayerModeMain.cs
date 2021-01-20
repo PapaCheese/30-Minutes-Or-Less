@@ -5,8 +5,17 @@ using UnityEngine;
 
 public class SinglePlayerModeMain : MonoBehaviour
 {
+    private float totalTimeElapsed = 0;
+    private int totalDeliviriesMade = 0;
 
-    private int remainingDeliveries = 3;
+
+
+    private float startCountdown = 3;
+
+    public int startingDeliveriesAmount = 3;
+    private int remainingDeliveries;
+
+    private int round = 1;
 
     public ArrowIndicator indicator;
 
@@ -21,8 +30,11 @@ public class SinglePlayerModeMain : MonoBehaviour
     public UnityEngine.UI.Text deliveriesText;
 
 
+    public Timer timer;
     public GameObject victoryPanel;
     public GameObject lossPanel;
+
+    public Transform pizzaPlace;
 
     private List<Building> buildings = new List<Building>();
 
@@ -36,9 +48,19 @@ public class SinglePlayerModeMain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        remainingDeliveries = startingDeliveriesAmount;
 
         tipMoneyText.text = PlayerPrefs.GetInt("money", 0).ToString();
+
+        RefreshDeliveryPoints();
+
+    }
+
+
+    void RefreshDeliveryPoints()
+    {
+        allBuildings.Clear();
+        buildings.Clear();
 
         GameObject[] _allBuildings = GameObject.FindGameObjectsWithTag("Building");
 
@@ -88,7 +110,6 @@ public class SinglePlayerModeMain : MonoBehaviour
         buildings.Add(allBuildings[usedBuildings[2]]);
 
         indicator.target = allBuildings[usedBuildings[0]].transform;
-
     }
 
     // Update is called once per frame
@@ -100,6 +121,17 @@ public class SinglePlayerModeMain : MonoBehaviour
         {
             setPause();
         }
+
+        if (startCountdown > 0)
+        {
+            startCountdown -= Time.deltaTime;
+        }
+        else if (!player.StartedRun)
+        {
+            player.StartedRun = true;
+        }
+
+        totalTimeElapsed += Time.deltaTime;
     }
 
     public void setPause()
@@ -174,7 +206,12 @@ public class SinglePlayerModeMain : MonoBehaviour
     {
         if (buildings[deliveryPointIndex] != null)
         {
+            if (round >= 3)
+            {
+                timer.timeRemaining += 4 - round;
+            }
 
+            totalDeliviriesMade += 1;
 
             buildings[deliveryPointIndex] = null;
 
@@ -199,30 +236,55 @@ public class SinglePlayerModeMain : MonoBehaviour
 
             remainingDeliveries -= 1;
 
-            deliveriesText.text = remainingDeliveries.ToString();
 
             if (remainingDeliveries <= 0)
             {
-                player.FinishedRun = true;
-                victoryPanel.SetActive(true);
-                gainedTipMoneyText.text = "Gained " + runMoney.ToString() +  "$ From Tips";
-                audioController.PlaySound("Victory");
-
+                indicator.target = pizzaPlace;
             }
+            deliveriesText.text = remainingDeliveries.ToString();
 
         }
 
     }
 
+
+    public void playerEnteredPizzaPlace()
+    {
+        if (remainingDeliveries <= 0)
+        {
+            audioController.PlaySound("ExtraTime");
+
+            remainingDeliveries = startingDeliveriesAmount + round;
+            round += 1;
+            RefreshDeliveryPoints();
+            deliveriesText.text = remainingDeliveries.ToString();
+
+        }
+
+    }
+
+
     public void RanOutOfTime()
     {
         player.FinishedRun = true;
-        lossPanel.SetActive(true);
-        audioController.PlaySound("GameEnd");
+        victoryPanel.SetActive(true);
+        gainedTipMoneyText.text = "Run Total Time: " + totalTimeElapsed.ToString() + "\n" +
+            "Total Deliveries Made: " + totalDeliviriesMade.ToString() + "\n" +
+            "Gained " + runMoney.ToString() + "$ From Tips";
+        audioController.PlaySound("Victory");
     }
 
     public void GoToTitleScreen()
     {
         SceneManager.LoadScene("TitleScreen");
     }
+
+
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+
 }

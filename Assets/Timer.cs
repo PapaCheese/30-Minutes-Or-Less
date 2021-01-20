@@ -24,7 +24,7 @@ public class Timer : MonoBehaviour
             {
                 strSeconds = "0" + seconds.ToString();
             }
-            GetComponent<UnityEngine.UI.Text>().text = minutes.ToString() + ":" + "<color=#464646>" + strSeconds + "</color>";
+            GetComponent<UnityEngine.UI.Text>().text = minutes.ToString() + ":" + "<color=#D2D2D2>" + strSeconds + "</color>";
 
             if (timeRemaining < 5 && !playedRunningOutOfTimeSound)
             {

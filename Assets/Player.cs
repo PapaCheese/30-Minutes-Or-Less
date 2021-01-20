@@ -5,12 +5,14 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     Rigidbody2D body;
+    public SinglePlayerModeMain brain;
 
     private string skin = "default";
 
     internal bool isControlledByUi;
     bool finishedRun = false;
-    float deliveryTime = 1.5f;
+    bool startedRun = false;
+    float deliveryTime = 1;
     float deliveryTimer = 0;
 
     float horizontal;
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour
     public float Horizontal { get => horizontal; set => horizontal = value; }
     public float Vertical { get => vertical; set => vertical = value; }
     public bool FinishedRun { get => finishedRun; set => finishedRun = value; }
+    public bool StartedRun { get => startedRun; set => startedRun = value; }
 
     void Start()
     {
@@ -142,7 +145,7 @@ public class Player : MonoBehaviour
 
     public bool CanMove()
     {
-        return !finishedRun && deliveryTimer <= 0;
+        return !finishedRun && startedRun && deliveryTimer <= 0;
     }
 
 
@@ -155,6 +158,10 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "Pavement")
         {
             driveSpeed /= 2;
+        }
+         if (other.gameObject.tag == "PizzaPlace")
+        {
+            brain.playerEnteredPizzaPlace();
         }
         Debug.Log("OnTriggerEnter2D Player");
     }

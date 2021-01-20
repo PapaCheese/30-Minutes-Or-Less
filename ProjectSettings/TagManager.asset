@@ -6,15 +6,8 @@ TagManager:
   tags:
   - Grass
   - Pavement
-  - NpcChangeDirectionDown
-  - NpcChangeDirectionUp
-  - NpcChangeDirectionRight
-  - NpcChangeDirectionLeft
-  - NpcMaybeChangeDirectionDown
-  - NpcMaybeChangeDirectionUp
-  - NpcMaybeChangeDirectionRight
-  - NpcMaybeChangeDirectionLeft
   - Building
+  - PizzaPlace
   layers:
   - Default
   - TransparentFX
