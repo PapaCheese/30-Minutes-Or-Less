@@ -13,8 +13,8 @@ public class SceneController : MonoBehaviour
     private bool rallyOwned = false;
     private bool sportOwned = false;
 
-    private int rallyPrice = 100;
-    private int sportPrice = 500;
+    private int rallyPrice = 8000;
+    private int sportPrice = 15000;
 
 
 
