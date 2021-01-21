@@ -41,14 +41,14 @@ public class SceneController : MonoBehaviour
             volumeSlider.value = PlayerPrefs.GetFloat("volume");
         }
 
-        walletText.text = PlayerPrefs.GetInt("money").ToString();
+        walletText.text = PlayerPrefs.GetInt("money").ToString() + "$";
 
 
         rallyOwned = intToBool(PlayerPrefs.GetInt("rally_is_unlocked", 0));
         sportOwned = intToBool(PlayerPrefs.GetInt("sport_is_unlocked", 0));
 
-        rallyPriceText.GetComponent<UnityEngine.UI.Text>().text = rallyPrice.ToString();
-        sportPriceText.GetComponent<UnityEngine.UI.Text>().text = sportPrice.ToString();
+        rallyPriceText.GetComponent<UnityEngine.UI.Text>().text = rallyPrice.ToString() + "$";
+        sportPriceText.GetComponent<UnityEngine.UI.Text>().text = sportPrice.ToString() + "$";
 
         if (rallyOwned)
         {
@@ -127,7 +127,7 @@ public class SceneController : MonoBehaviour
             }
         }
 
-        walletText.text = PlayerPrefs.GetInt("money").ToString();
+        walletText.text = PlayerPrefs.GetInt("money").ToString() + "$";
     }
 
 
@@ -140,11 +140,11 @@ public class SceneController : MonoBehaviour
         PlayerPrefs.SetFloat("volume", vol);
     }
 
+
     public void QuitGame()
     {
         Application.Quit();
     }
-
 
 
     int boolToInt(bool val)

@@ -45,12 +45,11 @@ public class SinglePlayerModeMain : MonoBehaviour
 
     private int runMoney = 0;
 
-    // Start is called before the first frame update
     void Start()
     {
         remainingDeliveries = startingDeliveriesAmount;
 
-        tipMoneyText.text = PlayerPrefs.GetInt("money", 0).ToString();
+        tipMoneyText.text = PlayerPrefs.GetInt("money", 0).ToString() + "$";
 
         RefreshDeliveryPoints();
 
@@ -89,9 +88,9 @@ public class SinglePlayerModeMain : MonoBehaviour
             {
 
                 while (Vector3.Distance(allBuildings[usedBuildings[i - 2]].transform.position,
-                    allBuildings[rnd].transform.position) < 6000 ||
+                    allBuildings[rnd].transform.position) < 5000 ||
                     Vector3.Distance(allBuildings[usedBuildings[i - 1]].transform.position,
-                    allBuildings[rnd].transform.position) < 6000)
+                    allBuildings[rnd].transform.position) < 5000)
                 {
                     rnd = Random.Range(0, allBuildings.Count);
                 }
@@ -101,13 +100,13 @@ public class SinglePlayerModeMain : MonoBehaviour
         }
 
 
-        allBuildings[usedBuildings[0]].SetAsDeliveryPoint(0, this);
-        allBuildings[usedBuildings[1]].SetAsDeliveryPoint(1, this);
-        allBuildings[usedBuildings[2]].SetAsDeliveryPoint(2, this);
+        for (int i = 0; i < usedBuildings.Count; i++)
+        {
+            allBuildings[usedBuildings[i]].SetAsDeliveryPoint(i, this);
+            buildings.Add(allBuildings[usedBuildings[i]]);
 
-        buildings.Add(allBuildings[usedBuildings[0]]);
-        buildings.Add(allBuildings[usedBuildings[1]]);
-        buildings.Add(allBuildings[usedBuildings[2]]);
+
+        }
 
         indicator.target = allBuildings[usedBuildings[0]].transform;
     }
@@ -206,9 +205,13 @@ public class SinglePlayerModeMain : MonoBehaviour
     {
         if (buildings[deliveryPointIndex] != null)
         {
-            if (round >= 3)
+            if (round <= 3)
             {
-                timer.timeRemaining += 4 - round;
+                timer.timeRemaining += Random.Range(1, 8 - round);
+            }
+            else
+            {
+                timer.timeRemaining += Random.Range(1, 3);
             }
 
             totalDeliviriesMade += 1;
@@ -226,7 +229,7 @@ public class SinglePlayerModeMain : MonoBehaviour
             PlayerPrefs.SetInt("money", money);
 
 
-            tipMoneyText.text = PlayerPrefs.GetInt("money", 0).ToString();
+            tipMoneyText.text = PlayerPrefs.GetInt("money", 0).ToString() + "$";
 
             audioController.PlaySound("Money");
             audioController.PlaySound("DoorBell");
@@ -268,14 +271,28 @@ public class SinglePlayerModeMain : MonoBehaviour
     {
         player.FinishedRun = true;
         victoryPanel.SetActive(true);
-        gainedTipMoneyText.text = "Run Total Time: " + totalTimeElapsed.ToString() + "\n" +
+
+        int minutes = (int)(totalTimeElapsed / 60);
+        int seconds = (int)(totalTimeElapsed % 60);
+
+        string strSeconds = seconds.ToString();
+        if (seconds < 10)
+        {
+            strSeconds = "0" + seconds.ToString();
+        }
+
+
+        string tte = minutes.ToString() + ":" + seconds.ToString();
+
+        gainedTipMoneyText.text = "Run Total Time: " + tte + "\n" +
             "Total Deliveries Made: " + totalDeliviriesMade.ToString() + "\n" +
-            "Gained " + runMoney.ToString() + "$ From Tips";
+            "Gained Total Of " + runMoney.ToString() + "$ From Tips";
         audioController.PlaySound("Victory");
     }
 
     public void GoToTitleScreen()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("TitleScreen");
     }
 
