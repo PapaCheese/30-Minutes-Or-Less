@@ -49,7 +49,7 @@ public class SinglePlayerModeMain : MonoBehaviour
     {
         remainingDeliveries = startingDeliveriesAmount;
 
-        tipMoneyText.text = PlayerPrefs.GetInt("money", 0).ToString() + "$";
+        tipMoneyText.text = "$" + PlayerPrefs.GetInt("money", 0).ToString();
 
         RefreshDeliveryPoints();
 
@@ -205,14 +205,17 @@ public class SinglePlayerModeMain : MonoBehaviour
     {
         if (buildings[deliveryPointIndex] != null)
         {
+            float extraTime = 0;
             if (round <= 3)
             {
-                timer.timeRemaining += Random.Range(1, 8 - round);
+                extraTime = Random.Range(1, 8 - round);
             }
             else
             {
-                timer.timeRemaining += Random.Range(1, 3);
+                extraTime = Random.Range(1, 3);
             }
+
+            timer.timeRemaining += extraTime;
 
             totalDeliviriesMade += 1;
 
@@ -222,14 +225,14 @@ public class SinglePlayerModeMain : MonoBehaviour
 
             runMoney += money;
 
-            player.PlayDeliveredFx(money);
+            player.PlayDeliveredFx(money, (int) extraTime);
 
             money += PlayerPrefs.GetInt("money");
 
             PlayerPrefs.SetInt("money", money);
 
 
-            tipMoneyText.text = PlayerPrefs.GetInt("money", 0).ToString() + "$";
+            tipMoneyText.text = "$" + PlayerPrefs.GetInt("money", 0).ToString();
 
             audioController.PlaySound("Money");
             audioController.PlaySound("DoorBell");
@@ -243,6 +246,7 @@ public class SinglePlayerModeMain : MonoBehaviour
             if (remainingDeliveries <= 0)
             {
                 indicator.target = pizzaPlace;
+                player.PlayOutOfPizzas();
             }
             deliveriesText.text = remainingDeliveries.ToString();
 
@@ -286,7 +290,7 @@ public class SinglePlayerModeMain : MonoBehaviour
 
         gainedTipMoneyText.text = "Run Total Time: " + tte + "\n" +
             "Total Deliveries Made: " + totalDeliviriesMade.ToString() + "\n" +
-            "Gained Total Of " + runMoney.ToString() + "$ From Tips";
+            "Gained Total Of $" + runMoney.ToString() + " From Tips";
         audioController.PlaySound("Victory");
     }
 

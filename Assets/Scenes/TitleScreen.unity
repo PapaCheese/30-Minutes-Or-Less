@@ -1266,7 +1266,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0$
+  m_Text: $0
 --- !u!222 &300674313
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1698,7 +1698,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 15000$
+  m_Text: $15000
 --- !u!222 &534176890
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4364,7 +4364,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 8000$
+  m_Text: $8000
 --- !u!222 &1574991982
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4681,7 +4681,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1671813316
 RectTransform:
   m_ObjectHideFlags: 0

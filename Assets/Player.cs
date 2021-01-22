@@ -21,11 +21,14 @@ public class Player : MonoBehaviour
 
     public float InitialDriveSpeed = 6000f;
     float driveSpeed;
+    float steerSpeed = 5;
 
 
     public Transform shadow;
     public Transform shadowSprite;
     public RectTransform deliveredFx;
+    public UnityEngine.UI.Text extraTimeText;
+    public GameObject OutOfPizzasText;
 
     public float Horizontal { get => horizontal; set => horizontal = value; }
     public float Vertical { get => vertical; set => vertical = value; }
@@ -131,14 +134,13 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //body.velocity = new Vector2(horizontal , vertical) * runSpeed;
-        Vector2 vector2;
-        body.rotation += -horizontal * 5;
+        body.rotation += Mathf.Round(-horizontal * steerSpeed);
 
         float rot = body.rotation;
 
         shadowSprite.transform.eulerAngles = new Vector3(0, 0, rot);
 
+        Vector2 vector2;
         vector2 = Vector2FromAngle(rot, vertical);
         body.AddForce(vector2 * driveSpeed);
     }
@@ -190,10 +192,16 @@ public class Player : MonoBehaviour
         horizontal = -1;
     }
 
-    public void PlayDeliveredFx(int money)
+    public void PlayDeliveredFx(int money, int extraTime)
     {
         deliveryTimer = deliveryTime;
-        deliveredFx.GetComponent<UnityEngine.UI.Text>().text = "+" + money.ToString();
+        deliveredFx.GetComponent<UnityEngine.UI.Text>().text = "+" + "$" + money.ToString();
+        extraTimeText.text = "+ " + extraTime.ToString() + " seconds";
         deliveredFx.GetComponent<Animator>().Play("TipAnimation", -1, 0f);
+    }
+
+    public void PlayOutOfPizzas()
+    {
+        OutOfPizzasText.GetComponent<Animator>().Play("OutOfPizzasAnimation", -1, 0f);
     }
 }
